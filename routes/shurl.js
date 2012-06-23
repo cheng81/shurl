@@ -1,16 +1,42 @@
 var url = require('url')
   , Shurl = require('../lib');
 
+var re = /^[a-z0-9]+$/;
+var checkShurl = function(urlObj, referer) {
+	if(!referer) {return false;} //cannot check
+	var refUrl = url.parse(referer);
+	if(refUrl.host===urlObj.host) {
+		//suspiciously the same host
+		//check if the path has only one element
+		var path = urlObj.path.substr(1);
+		if(path.length>0&&(path.indexOf('/')<0)) {
+			//even more suspiciously, the path has only one element
+			if(re.test(path)) {
+				//ok, that's definitely a shurl key, you cheater!
+				return path;
+			}
+		}
+	}
+	return false;
+}
 var make = function(req, res) {
+	// var util = require('util');
+	// console.log('REQ',req); //util.inspect(req,true,100));
 	var toShorten = req.body.url.trim();
 	if(toShorten.indexOf('http')!==0) {toShorten = 'http://' + toShorten;}
 	var urlObj = url.parse(toShorten,true);
-	Shurl.make(urlObj, function(err, key) {
-		if(err) {
-			throw err;
-		}
-		res.send(key, {'Content-Type':'text/plain'}, 201);
-	})
+	var shurlKey = checkShurl(urlObj,req.headers.referer);
+	if(shurlKey) {
+		console.log('Nice try',shurlKey);
+		res.send(shurlKey, {'Content-Type':'text/plain'}, 200);
+	} else {
+		Shurl.make(urlObj, function(err, key) {
+			if(err) {
+				throw err;
+			}
+			res.send(key, {'Content-Type':'text/plain'}, 201);
+		});
+	}
 };
 
 var redir = function(req, res) {
