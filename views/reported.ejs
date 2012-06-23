@@ -1,0 +1,39 @@
+<div class="navbar navbar-fixed-top">
+  <div class="navbar-inner">
+    <div class="container">
+      <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </a>
+      <a class="brand" href="/"><%= title %></a>
+      <div class="nav-collapse">
+        <ul class="nav">
+          <li><a href="/">Home</a></li>
+          <li><a href="/Report">Report</a></li>
+        </ul>
+      </div><!--/.nav-collapse -->
+    </div>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- Main hero unit for a primary marketing message or call to action -->
+  <div class="hero-unit">
+    <h1>Attention!</h1>
+    <p>The url <pre><%= url %></pre> with title <pre><%= decodeURIComponent(urltitle) %></pre> has been reported <%= times %> times.</p>
+    <p>Should you choose to ignore this warning and continue, please click on the following link.</p>
+    <p><a id="ignore" class="btn btn-danger btn-large" href="<%= url %>">Ignore &raquo;</a></p>
+  </div>
+
+  <hr>
+
+
+</div> <!-- /container -->
+
+<script type="text/javascript">
+$('a#ignore').click(function(e) {
+  $.post('/Report/<%= key %>', {_method:'delete'});
+});
+</script>

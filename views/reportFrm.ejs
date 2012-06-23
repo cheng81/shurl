@@ -1,0 +1,69 @@
+<div class="navbar navbar-fixed-top">
+  <div class="navbar-inner">
+    <div class="container">
+      <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </a>
+      <a class="brand" href="/"><%= title %></a>
+      <div class="nav-collapse">
+        <ul class="nav">
+          <li><a href="/">Home</a></li>
+          <li class="active"><a href="#">Report</a></li>
+        </ul>
+      </div><!--/.nav-collapse -->
+    </div>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- Main hero unit for a primary marketing message or call to action -->
+  <div class="hero-unit">
+    <h1>Shurl!</h1>
+    <h3>Report a ShURL</h3>
+    <p>
+      <form id="report" class="well form-inline">
+        <input type="text" name="key" class="span8"/>
+        <input type="submit" class="btn btn-primary"/>
+      </form>
+    </p>
+    <p id="result"></p>
+  </div>
+
+
+  <hr>
+
+
+</div> <!-- /container -->
+<script type="text/javascript" src="javascripts/parseuri.js"></script>
+<script type="text/javascript">
+var showres = function(text) {
+  $('p#result').text(text);
+};
+var showerr = function() {
+  showres('Please enter a valid ShURL id or url');
+}
+$('form#report').submit(function(e) {
+  e.preventDefault();
+  var v = $('input[name=key]').val();
+  if(v.length===0) {
+    showerr();    
+  } else {
+    if(v.indexOf('/')>=0) {
+      try {
+        var uri = parseUri(v);
+        v = uri.path.substr(1);
+        console.log('parsed uri',uri);
+      } catch(e) {console.log(e); showerr();}
+    }
+    console.log('report',v);
+    $.post('/Report/'+v,null, function(data) {
+    console.log(data);
+    $('p#result').text(data);
+  });
+  }
+  return false;
+})
+</script>

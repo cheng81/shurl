@@ -1,0 +1,49 @@
+<div class="navbar navbar-fixed-top">
+  <div class="navbar-inner">
+    <div class="container">
+      <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </a>
+      <a class="brand" href="/"><%= title %></a>
+      <div class="nav-collapse">
+        <ul class="nav">
+          <li class="active"><a href="/">Home</a></li>
+          <li><a href="/Report">Report</a></li>
+        </ul>
+      </div><!--/.nav-collapse -->
+    </div>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- Main hero unit for a primary marketing message or call to action -->
+  <div class="hero-unit">
+    <h1>Shurl!</h1>
+    <p>
+      <form id="make" class="well form-inline">
+        <input type="text" name="url" class="span8"/>
+        <input type="submit" class="btn btn-primary"/>
+      </form>
+    </p>
+    <p id="shortened"></p>
+  </div>
+
+
+  <hr>
+
+
+</div> <!-- /container -->
+<script type="text/javascript">
+$('form#make').submit(function(e) {
+  e.preventDefault();
+  $.post('/Shurl',{
+    url: $('input[name=url]').val()
+  }, function(data) {
+    $('p#shortened').html('<a class="btn btn-success btn-large" href="/'+data+'">'+ window.location.host + '/' + data+'</a>');
+  });
+  return false;
+})
+</script>

@@ -1,0 +1,17 @@
+{
+    "name": "Shurl"
+  , "version": "0.0.1"
+  , "private": true
+  , "dependencies": {
+      "express": "2.5.10"
+    , "ejs": ">= 0.7.1"
+    , "riak-js": "git://github.com/mostlyserious/riak-js.git"
+    , "request": ">= 2.9.202"
+  }
+  , "config": {
+  	  "port": "8080"
+  	, "cluster": "4"
+    , "riakhost": "localhost"
+    , "riakport": "8098"
+  }
+}
