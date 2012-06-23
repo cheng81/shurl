@@ -16,3 +16,11 @@ Node.js + Riak URL shortener.
  - Riak
  - Riak-js
  - Twitter bootstrap
+
+## Gotchas
+
+ - There are bugs.
+ - I used Riak secondary indexes, but the npm-available riak-js does not support them right now (as of 0.4.1).
+ The `package.json` file dutily reports the dependencyo on the riak-js git HEAD version,
+ but in order to run Shurl you will need to manually build it.
+ 
