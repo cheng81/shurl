@@ -20,8 +20,6 @@ var checkShurl = function(urlObj, referer) {
 	return false;
 }
 var make = function(req, res) {
-	// var util = require('util');
-	// console.log('REQ',req); //util.inspect(req,true,100));
 	var toShorten = req.body.url.trim();
 	if(toShorten.indexOf('http')!==0) {toShorten = 'http://' + toShorten;}
 	var urlObj = url.parse(toShorten,true);
